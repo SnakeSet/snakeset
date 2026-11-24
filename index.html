@@ -18,7 +18,7 @@ body {
 }
 
 header {
-    padding: 25px;
+    padding: 22px;
     background: #101a13;
     border-bottom: 1px solid #304c37;
 }
@@ -36,54 +36,92 @@ header {
     letter-spacing: 3px;
 }
 
-main {
-    max-width: 850px;
-    margin: 45px auto;
-    padding: 20px;
+.wallet {
+    margin: 20px auto 0;
+    display: inline-block;
+    padding: 12px 25px;
+    background: #19291d;
+    border: 1px solid #547c48;
+    border-radius: 10px;
+    color: #f3d16b;
+    font-weight: bold;
 }
 
-h1 { font-size: 34px; }
+main {
+    max-width: 900px;
+    margin: 35px auto;
+    padding: 20px;
+}
 
 .description { color: #9aab9d; }
 
 .categories {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
-    margin-top: 35px;
+    gap: 16px;
+    margin-top: 30px;
 }
 
 .category {
-    padding: 25px;
+    padding: 22px;
     background: linear-gradient(145deg,#17271c,#0c140f);
     border: 1px solid #304c37;
     border-radius: 14px;
     cursor: pointer;
-    transition: .2s;
 }
 
 .category:hover {
     border-color: #6de99a;
-    transform: translateY(-4px);
 }
 
 .symbol {
-    height: 65px;
-    font-size: 48px;
+    height: 60px;
+    font-size: 43px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .symbol img {
-    max-height: 60px;
-    max-width: 65px;
+    max-height: 55px;
+    max-width: 60px;
     object-fit: contain;
 }
 
 .category p {
     color: #9aab9d;
     font-size: 13px;
+}
+
+.pack-area {
+    margin-top: 35px;
+    padding: 25px;
+    border: 1px solid #34533a;
+    border-radius: 16px;
+    background: #101a13;
+}
+
+.pack {
+    margin: 20px auto;
+    width: 180px;
+    height: 230px;
+    border: 3px solid #76dc91;
+    border-radius: 15px;
+    background: linear-gradient(145deg,#244c30,#09130c);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 25px #285e3670;
+}
+
+.pack .snake {
+    font-size: 65px;
+}
+
+.pack strong {
+    color: #8cf3a6;
+    letter-spacing: 3px;
 }
 
 button {
@@ -93,52 +131,76 @@ button {
     font-weight: bold;
 }
 
-.pack-button {
-    display: block;
-    width: 100%;
-    margin-top: 35px;
-    padding: 22px;
-    background: linear-gradient(90deg,#276b3d,#64d889);
+.open-button {
+    padding: 17px 35px;
+    background: #64d889;
     color: #07120a;
-    font-size: 21px;
+    font-size: 19px;
 }
 
-.collection-button {
-    margin-top: 15px;
-    padding: 15px 30px;
+.open-button:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.secondary {
+    margin: 10px;
+    padding: 13px 25px;
     background: #1b3021;
     border: 1px solid #42664b;
     color: white;
-    font-size: 15px;
 }
 
-#result {
+#screen {
     display: none;
     margin-top: 25px;
-    padding: 30px;
-    background: #14251a;
-    border: 1px solid #64d889;
+    padding: 22px;
+    background: #111e15;
+    border: 1px solid #42664b;
     border-radius: 15px;
 }
 
-#result h2 { color: #6de99a; }
-
-#result p { color: #c1d1c4; }
-
-#result button {
-    padding: 12px 25px;
-    background: #64d889;
-    color: #07120a;
+.cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 20px;
 }
 
+.card {
+    padding: 17px 8px;
+    border: 1px solid #526052;
+    border-radius: 12px;
+    background: #18231b;
+}
+
+.card .emoji { font-size: 35px; }
+
+.card h3 { margin: 10px 0 5px; }
+
+.card p {
+    font-size: 12px;
+    margin: 5px;
+}
+
+.Common { color: #b9c1c1; }
+.Uncommon { color: #69d989; }
+.Rare { color: #65aaff; }
+.Epic { color: #c28aff; }
+.Legendary { color: #f3cf56; }
+.Hidden { color: #ff6868; }
+
+#screen button { margin-top: 20px; }
+
 footer {
-    margin-top: 60px;
+    margin: 55px 0 20px;
     color: #607466;
     font-size: 12px;
 }
 
 @media(max-width:500px) {
     .categories { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: repeat(2,1fr); }
 }
 </style>
 </head>
@@ -148,10 +210,10 @@ footer {
 <header>
     <div class="logo">SNAKESET</div>
     <div class="subtitle">THE SNAKE COLLECTION GAME</div>
+    <div class="wallet">🪙 <span id="coins">100</span> COINS</div>
 </header>
 
 <main>
-
     <h1>Discover the Wild.</h1>
     <p class="description">
         Collect snakes. Discover rarities. Complete your collection.
@@ -159,114 +221,177 @@ footer {
 
     <div class="categories">
 
-        <div class="category" onclick="choose('Water')">
+        <div class="category" onclick="showCategory('Water')">
             <div class="symbol">🌊</div>
             <h2>WATER</h2>
-            <p>Explore aquatic snakes</p>
+            <p>Aquatic snakes</p>
         </div>
 
-        <div class="category" onclick="choose('Venom')">
+        <div class="category" onclick="showCategory('Venom')">
             <div class="symbol">
-                <img src="Biohazard-Sign.webp" alt="Venom symbol">
+                <img src="Biohazard-Sign.webp" alt="Venom">
             </div>
             <h2>VENOM</h2>
-            <p>Discover venomous snakes</p>
+            <p>Venomous snakes</p>
         </div>
 
-        <div class="category" onclick="choose('Jungle')">
+        <div class="category" onclick="showCategory('Jungle')">
             <div class="symbol">🌴</div>
             <h2>JUNGLE</h2>
-            <p>Explore the rainforest</p>
+            <p>Rainforest snakes</p>
         </div>
 
-        <div class="category" onclick="choose('Hidden')">
+        <div class="category" onclick="showCategory('Hidden')">
             <div class="symbol">
-                <img src="hidden-icon-visible-invisible-icon-eye-icon-look-and-vision-hide-unhide-symbol-human-eye-magic-eye-cross-symbol-sencitive-content-see-unsee-incognito-mood-blind-sign-free-vector.jpg" alt="Hidden symbol">
+                <img src="hidden-icon-visible-invisible-icon-eye-icon-look-and-vision-hide-unhide-symbol-human-eye-magic-eye-cross-symbol-sencitive-content-see-unsee-incognito-mood-blind-sign-free-vector.jpg" alt="Hidden">
             </div>
             <h2>HIDDEN</h2>
-            <p>Can you discover them all?</p>
+            <p>Secret discoveries</p>
         </div>
 
     </div>
 
-    <button class="pack-button" onclick="openPack()">
-        OPEN A PACK
-    </button>
+    <section class="pack-area">
+        <h2>THE MYSTERY PACK</h2>
+        <p class="description">5 random snake cards in every pack!</p>
 
-    <button class="collection-button" onclick="showCollection()">
-        MY COLLECTION
-    </button>
+        <div class="pack">
+            <div class="snake">🐍</div>
+            <strong>SNAKESET</strong>
+            <p>5 RANDOM CARDS</p>
+        </div>
 
-    <div id="result">
-        <h2 id="resultTitle"></h2>
-        <p id="resultDescription"></p>
-        <button onclick="closeResult()">CONTINUE</button>
+        <h2 style="color:#f3d16b">🪙 25 COINS</h2>
+
+        <button class="open-button" onclick="openPack()">
+            OPEN PACK
+        </button>
+    </section>
+
+    <div>
+        <button class="secondary" onclick="showCollection()">
+            MY COLLECTION
+        </button>
+    </div>
+
+    <div id="screen">
+        <h2 id="screenTitle"></h2>
+        <div id="screenContent"></div>
+        <button class="secondary" onclick="closeScreen()">CLOSE</button>
     </div>
 
     <footer>SNAKESET © 2026</footer>
-
 </main>
 
 <script>
-const snakes = [
-    {name:"Corn Snake", rarity:"Common", type:"Jungle"},
-    {name:"Ball Python", rarity:"Common", type:"Jungle"},
-    {name:"Emerald Tree Boa", rarity:"Rare", type:"Jungle"},
-    {name:"King Cobra", rarity:"Legendary", type:"Venom"},
-    {name:"Green Anaconda", rarity:"Epic", type:"Water"},
-    {name:"Blue-Lipped Sea Krait", rarity:"Rare", type:"Water"}
+const snakeList = [
+    {name:"Corn Snake",rarity:"Common",type:"Jungle",emoji:"🐍"},
+    {name:"Ball Python",rarity:"Common",type:"Jungle",emoji:"🐍"},
+    {name:"Garter Snake",rarity:"Common",type:"Water",emoji:"🐍"},
+    {name:"Green Tree Python",rarity:"Uncommon",type:"Jungle",emoji:"🐍"},
+    {name:"Emerald Tree Boa",rarity:"Rare",type:"Jungle",emoji:"🐍"},
+    {name:"King Cobra",rarity:"Epic",type:"Venom",emoji:"🐍"},
+    {name:"Green Anaconda",rarity:"Epic",type:"Water",emoji:"🐍"},
+    {name:"Blue-Lipped Sea Krait",rarity:"Rare",type:"Water",emoji:"🐍"},
+    {name:"Gaboon Viper",rarity:"Legendary",type:"Venom",emoji:"🐍"},
+    {name:"Golden Mystery Snake",rarity:"Hidden",type:"Hidden",emoji:"✨"}
 ];
 
-function choose(category) {
-    show("CATEGORY: " + category,
-         "The " + category + " collection is coming soon!");
+let data = JSON.parse(localStorage.getItem("snakeSetSave") || '{"coins":100,"collection":[]}');
+
+function save() {
+    localStorage.setItem("snakeSetSave",JSON.stringify(data));
+    document.getElementById("coins").textContent = data.coins;
 }
 
 function openPack() {
-    const snake = snakes[Math.floor(Math.random() * snakes.length)];
+    if(data.coins < 25) {
+        showScreen("NOT ENOUGH COINS","You need 25 coins to open a pack!");
+        return;
+    }
 
-    show(
-        "YOU FOUND A " + snake.rarity.toUpperCase() + "!",
-        snake.name + " — " + snake.type + " snake"
-    );
+    data.coins -= 25;
 
-    window.currentSnake = snake;
-}
+    let rewards = [];
 
-function closeResult() {
-    document.getElementById("result").style.display = "none";
-}
+    for(let i=0;i<5;i++) {
+        let snake = snakeList[Math.floor(Math.random()*snakeList.length)];
+        rewards.push(snake);
+        data.collection.push(snake);
+    }
 
-function show(title, description) {
-    document.getElementById("resultTitle").textContent = title;
-    document.getElementById("resultDescription").textContent = description;
-    document.getElementById("result").style.display = "block";
+    save();
+
+    let html = '<div class="cards">';
+
+    rewards.forEach((snake,index) => {
+        html += `
+        <div class="card">
+            <div class="emoji">${snake.emoji}</div>
+            <h3>${snake.name}</h3>
+            <p class="${snake.rarity}">${snake.rarity.toUpperCase()}</p>
+            <p>${snake.type}</p>
+        </div>`;
+    });
+
+    html += '</div>';
+
+    showScreen("YOUR 5 SNAKES!",html);
 }
 
 function showCollection() {
-    const collection = JSON.parse(localStorage.getItem("snakes") || "[]");
+    let html = '<div class="cards">';
 
-    show(
-        "MY COLLECTION",
-        collection.length
-        ? collection.join(", ")
-        : "You haven't collected any snakes yet!"
-    );
+    if(data.collection.length === 0) {
+        html += '<p>No snakes yet. Open a pack!</p>';
+    } else {
+        data.collection.forEach(snake => {
+            html += `
+            <div class="card">
+                <div class="emoji">${snake.emoji}</div>
+                <h3>${snake.name}</h3>
+                <p class="${snake.rarity}">${snake.rarity.toUpperCase()}</p>
+                <p>${snake.type}</p>
+            </div>`;
+        });
+    }
+
+    html += '</div>';
+    showScreen("MY COLLECTION",html);
 }
 
-document.querySelector(".pack-button").addEventListener("click", function() {
-    // The pack reward is saved when opened.
-    const snake = snakes[Math.floor(Math.random() * snakes.length)];
-    const collection = JSON.parse(localStorage.getItem("snakes") || "[]");
+function showCategory(type) {
+    let found = data.collection.filter(snake => snake.type === type);
+    let html = '<div class="cards">';
 
-    collection.push(snake.name);
-    localStorage.setItem("snakes", JSON.stringify(collection));
+    if(found.length === 0) {
+        html += '<p>You haven't discovered any ' + type + ' snakes yet!</p>';
+    } else {
+        found.forEach(snake => {
+            html += `<div class="card">
+                <div class="emoji">${snake.emoji}</div>
+                <h3>${snake.name}</h3>
+                <p class="${snake.rarity}">${snake.rarity}</p>
+            </div>`;
+        });
+    }
 
-    show(
-        "YOU FOUND A " + snake.rarity.toUpperCase() + "!",
-        snake.name + " — " + snake.type + " snake"
-    );
-});
+    html += '</div>';
+    showScreen(type.toUpperCase() + " COLLECTION",html);
+}
+
+function showScreen(title,content) {
+    document.getElementById("screenTitle").textContent = title;
+    document.getElementById("screenContent").innerHTML = content;
+    document.getElementById("screen").style.display = "block";
+    document.getElementById("screen").scrollIntoView({behavior:"smooth"});
+}
+
+function closeScreen() {
+    document.getElementById("screen").style.display = "none";
+}
+
+save();
 </script>
 
 </body>
