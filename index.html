@@ -7,9 +7,7 @@
 <title>SnakeSet</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -21,51 +19,47 @@ body {
 
 header {
     padding: 25px;
-    border-bottom: 1px solid #24372b;
     background: #101a13;
+    border-bottom: 1px solid #304c37;
 }
 
 .logo {
     color: #6de99a;
     font-size: 38px;
     font-weight: bold;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
 }
 
 .subtitle {
     color: #9aab9d;
-    letter-spacing: 3px;
     font-size: 12px;
+    letter-spacing: 3px;
 }
 
 main {
-    max-width: 900px;
-    margin: 55px auto;
+    max-width: 850px;
+    margin: 45px auto;
     padding: 20px;
 }
 
-h1 {
-    font-size: 34px;
-}
+h1 { font-size: 34px; }
 
-.description {
-    color: #9aab9d;
-    margin-bottom: 40px;
-}
+.description { color: #9aab9d; }
 
 .categories {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 18px;
+    margin-top: 35px;
 }
 
 .category {
-    padding: 35px 15px;
+    padding: 25px;
+    background: linear-gradient(145deg,#17271c,#0c140f);
     border: 1px solid #304c37;
     border-radius: 14px;
-    background: linear-gradient(145deg, #17271c, #0c140f);
     cursor: pointer;
-    transition: 0.2s;
+    transition: .2s;
 }
 
 .category:hover {
@@ -74,11 +68,17 @@ h1 {
 }
 
 .symbol {
-    font-size: 38px;
+    height: 65px;
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.category h2 {
-    margin-bottom: 5px;
+.symbol img {
+    max-height: 60px;
+    max-width: 65px;
+    object-fit: contain;
 }
 
 .category p {
@@ -86,28 +86,59 @@ h1 {
     font-size: 13px;
 }
 
-.collection {
-    margin-top: 35px;
-    padding: 17px 35px;
-    background: #64d889;
-    color: #07120a;
+button {
+    cursor: pointer;
     border: none;
     border-radius: 9px;
-    font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
+}
+
+.pack-button {
+    display: block;
+    width: 100%;
+    margin-top: 35px;
+    padding: 22px;
+    background: linear-gradient(90deg,#276b3d,#64d889);
+    color: #07120a;
+    font-size: 21px;
+}
+
+.collection-button {
+    margin-top: 15px;
+    padding: 15px 30px;
+    background: #1b3021;
+    border: 1px solid #42664b;
+    color: white;
+    font-size: 15px;
+}
+
+#result {
+    display: none;
+    margin-top: 25px;
+    padding: 30px;
+    background: #14251a;
+    border: 1px solid #64d889;
+    border-radius: 15px;
+}
+
+#result h2 { color: #6de99a; }
+
+#result p { color: #c1d1c4; }
+
+#result button {
+    padding: 12px 25px;
+    background: #64d889;
+    color: #07120a;
 }
 
 footer {
-    margin-top: 65px;
+    margin-top: 60px;
     color: #607466;
     font-size: 12px;
 }
 
-@media(max-width: 500px) {
-    .categories {
-        grid-template-columns: 1fr;
-    }
+@media(max-width:500px) {
+    .categories { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -120,6 +151,7 @@ footer {
 </header>
 
 <main>
+
     <h1>Discover the Wild.</h1>
     <p class="description">
         Collect snakes. Discover rarities. Complete your collection.
@@ -134,7 +166,9 @@ footer {
         </div>
 
         <div class="category" onclick="choose('Venom')">
-            <div class="symbol">☠️</div>
+            <div class="symbol">
+                <img src="Biohazard-Sign.webp" alt="Venom symbol">
+            </div>
             <h2>VENOM</h2>
             <p>Discover venomous snakes</p>
         </div>
@@ -146,26 +180,93 @@ footer {
         </div>
 
         <div class="category" onclick="choose('Hidden')">
-            <div class="symbol">🔒</div>
+            <div class="symbol">
+                <img src="hidden-icon-visible-invisible-icon-eye-icon-look-and-vision-hide-unhide-symbol-human-eye-magic-eye-cross-symbol-sencitive-content-see-unsee-incognito-mood-blind-sign-free-vector.jpg" alt="Hidden symbol">
+            </div>
             <h2>HIDDEN</h2>
             <p>Can you discover them all?</p>
         </div>
 
     </div>
 
-    <button class="collection" onclick="alert('Collection coming soon!')">
+    <button class="pack-button" onclick="openPack()">
+        OPEN A PACK
+    </button>
+
+    <button class="collection-button" onclick="showCollection()">
         MY COLLECTION
     </button>
 
-    <footer>
-        SNAKESET © 2026
-    </footer>
+    <div id="result">
+        <h2 id="resultTitle"></h2>
+        <p id="resultDescription"></p>
+        <button onclick="closeResult()">CONTINUE</button>
+    </div>
+
+    <footer>SNAKESET © 2026</footer>
+
 </main>
 
 <script>
+const snakes = [
+    {name:"Corn Snake", rarity:"Common", type:"Jungle"},
+    {name:"Ball Python", rarity:"Common", type:"Jungle"},
+    {name:"Emerald Tree Boa", rarity:"Rare", type:"Jungle"},
+    {name:"King Cobra", rarity:"Legendary", type:"Venom"},
+    {name:"Green Anaconda", rarity:"Epic", type:"Water"},
+    {name:"Blue-Lipped Sea Krait", rarity:"Rare", type:"Water"}
+];
+
 function choose(category) {
-    alert(category + " collection coming soon!");
+    show("CATEGORY: " + category,
+         "The " + category + " collection is coming soon!");
 }
+
+function openPack() {
+    const snake = snakes[Math.floor(Math.random() * snakes.length)];
+
+    show(
+        "YOU FOUND A " + snake.rarity.toUpperCase() + "!",
+        snake.name + " — " + snake.type + " snake"
+    );
+
+    window.currentSnake = snake;
+}
+
+function closeResult() {
+    document.getElementById("result").style.display = "none";
+}
+
+function show(title, description) {
+    document.getElementById("resultTitle").textContent = title;
+    document.getElementById("resultDescription").textContent = description;
+    document.getElementById("result").style.display = "block";
+}
+
+function showCollection() {
+    const collection = JSON.parse(localStorage.getItem("snakes") || "[]");
+
+    show(
+        "MY COLLECTION",
+        collection.length
+        ? collection.join(", ")
+        : "You haven't collected any snakes yet!"
+    );
+}
+
+document.querySelector(".pack-button").addEventListener("click", function() {
+    // The pack reward is saved when opened.
+    const snake = snakes[Math.floor(Math.random() * snakes.length)];
+    const collection = JSON.parse(localStorage.getItem("snakes") || "[]");
+
+    collection.push(snake.name);
+    localStorage.setItem("snakes", JSON.stringify(collection));
+
+    show(
+        "YOU FOUND A " + snake.rarity.toUpperCase() + "!",
+        snake.name + " — " + snake.type + " snake"
+    );
+});
 </script>
 
 </body>
