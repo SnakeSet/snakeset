@@ -1,11 +1,172 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>SnakeSet</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SnakeSet</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #080e0b;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+header {
+    padding: 25px;
+    border-bottom: 1px solid #24372b;
+    background: #101a13;
+}
+
+.logo {
+    color: #6de99a;
+    font-size: 38px;
+    font-weight: bold;
+    letter-spacing: 4px;
+}
+
+.subtitle {
+    color: #9aab9d;
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+main {
+    max-width: 900px;
+    margin: 55px auto;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 34px;
+}
+
+.description {
+    color: #9aab9d;
+    margin-bottom: 40px;
+}
+
+.categories {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+}
+
+.category {
+    padding: 35px 15px;
+    border: 1px solid #304c37;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #17271c, #0c140f);
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.category:hover {
+    border-color: #6de99a;
+    transform: translateY(-4px);
+}
+
+.symbol {
+    font-size: 38px;
+}
+
+.category h2 {
+    margin-bottom: 5px;
+}
+
+.category p {
+    color: #9aab9d;
+    font-size: 13px;
+}
+
+.collection {
+    margin-top: 35px;
+    padding: 17px 35px;
+    background: #64d889;
+    color: #07120a;
+    border: none;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+footer {
+    margin-top: 65px;
+    color: #607466;
+    font-size: 12px;
+}
+
+@media(max-width: 500px) {
+    .categories {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
 </head>
 
 <body>
-    <h1>🐍 SnakeSet</h1>
-    <p>Welcome to SnakeSet!</p>
+
+<header>
+    <div class="logo">SNAKESET</div>
+    <div class="subtitle">THE SNAKE COLLECTION GAME</div>
+</header>
+
+<main>
+    <h1>Discover the Wild.</h1>
+    <p class="description">
+        Collect snakes. Discover rarities. Complete your collection.
+    </p>
+
+    <div class="categories">
+
+        <div class="category" onclick="choose('Water')">
+            <div class="symbol">🌊</div>
+            <h2>WATER</h2>
+            <p>Explore aquatic snakes</p>
+        </div>
+
+        <div class="category" onclick="choose('Venom')">
+            <div class="symbol">☠️</div>
+            <h2>VENOM</h2>
+            <p>Discover venomous snakes</p>
+        </div>
+
+        <div class="category" onclick="choose('Jungle')">
+            <div class="symbol">🌴</div>
+            <h2>JUNGLE</h2>
+            <p>Explore the rainforest</p>
+        </div>
+
+        <div class="category" onclick="choose('Hidden')">
+            <div class="symbol">🔒</div>
+            <h2>HIDDEN</h2>
+            <p>Can you discover them all?</p>
+        </div>
+
+    </div>
+
+    <button class="collection" onclick="alert('Collection coming soon!')">
+        MY COLLECTION
+    </button>
+
+    <footer>
+        SNAKESET © 2026
+    </footer>
+</main>
+
+<script>
+function choose(category) {
+    alert(category + " collection coming soon!");
+}
+</script>
+
 </body>
 </html>
