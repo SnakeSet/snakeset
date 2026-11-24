@@ -392,6 +392,75 @@ function closeScreen() {
 }
 
 save();
+const snakeList = [
+    {name:"Corn Snake",rarity:"Common",type:"Jungle",emoji:"🐍"},
+    {name:"Ball Python",rarity:"Common",type:"Jungle",emoji:"🐍"},
+    {name:"Emerald Tree Boa",rarity:"Rare",type:"Jungle",emoji:"🐍"},
+    {name:"King Cobra",rarity:"Epic",type:"Venom",emoji:"🐍"},
+    {name:"Green Anaconda",rarity:"Epic",type:"Water",emoji:"🐍"},
+    {name:"Blue-Lipped Sea Krait",rarity:"Rare",type:"Water",emoji:"🐍"}
+];
+
+let data = JSON.parse(localStorage.getItem("snakeSetSave") || '{"coins":100,"collection":[]}');
+
+function save() {
+    localStorage.setItem("snakeSetSave",JSON.stringify(data));
+    document.getElementById("coins").textContent = data.coins;
+}
+
+function openPack() {
+    if(data.coins < 25) {
+        alert("Not enough coins!");
+        return;
+    }
+
+    data.coins -= 25;
+
+    let html = '<div class="cards">';
+
+    for(let i=0;i<5;i++) {
+        let snake = snakeList[Math.floor(Math.random()*snakeList.length)];
+        data.collection.push(snake);
+
+        html += `
+        <div class="card">
+            <div class="emoji">${snake.emoji}</div>
+            <h3>${snake.name}</h3>
+            <p class="${snake.rarity}">${snake.rarity}</p>
+            <p>${snake.type}</p>
+        </div>`;
+    }
+
+    html += '</div>';
+
+    save();
+    showScreen("YOUR 5 SNAKES!",html);
+}
+
+function showCategory(type) {
+    let found = data.collection.filter(s => s.type === type);
+    showScreen(type.toUpperCase() + " COLLECTION",
+        found.length ? found.map(s => s.name + " — " + s.rarity).join("<br>") : "No snakes discovered yet!");
+}
+
+function showCollection() {
+    showScreen("MY COLLECTION",
+        data.collection.length
+        ? data.collection.map(s => s.name + " — " + s.rarity).join("<br>")
+        : "No snakes collected yet!");
+}
+
+function showScreen(title,content) {
+    document.getElementById("screenTitle").textContent = title;
+    document.getElementById("screenContent").innerHTML = content;
+    document.getElementById("screen").style.display = "block";
+}
+
+function closeScreen() {
+    document.getElementById("screen").style.display = "none";
+}
+
+save();
 </script>
 
 </body>
